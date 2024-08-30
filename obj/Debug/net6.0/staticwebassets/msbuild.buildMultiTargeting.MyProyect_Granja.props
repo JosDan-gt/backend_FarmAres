@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\MyProyect_Granja.props" />
+</Project>
