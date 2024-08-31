@@ -17,14 +17,18 @@ namespace MyProyect_Granja.Models
         }
 
         public virtual DbSet<ClasificacionHuevo> ClasificacionHuevos { get; set; } = null!;
+        public virtual DbSet<Cliente> Clientes { get; set; } = null!;
         public virtual DbSet<Corral> Corral { get; set; } = null!;
+        public virtual DbSet<DetallesVentum> DetallesVenta { get; set; } = null!;
         public virtual DbSet<EstadoLote> EstadoLotes { get; set; } = null!;
         public virtual DbSet<Etapa> Etapas { get; set; } = null!;
         public virtual DbSet<Lote> Lotes { get; set; } = null!;
         public virtual DbSet<ProduccionGallina> ProduccionGallinas { get; set; } = null!;
+        public virtual DbSet<Producto> Productos { get; set; } = null!;
         public virtual DbSet<RazaGallina> RazaGallinas { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Usuario> Usuarios { get; set; } = null!;
+        public virtual DbSet<Venta> Ventas { get; set; } = null!;
         public virtual DbSet<VistaClasificacionHuevo> VistaClasificacionHuevos { get; set; } = null!;
         public virtual DbSet<VistaDashboard> VistaDashboard { get; set; } = null!;
         public virtual DbSet<VistaEstadoLotePorFecha> VistaEstadoLotePorFechas { get; set; } = null!;
@@ -62,6 +66,25 @@ namespace MyProyect_Granja.Models
                     .HasConstraintName("FK_ClasificacionHuevos_ProduccionGallinas");
             });
 
+            modelBuilder.Entity<Cliente>(entity =>
+            {
+                entity.Property(e => e.ClienteId).HasColumnName("ClienteID");
+
+                entity.Property(e => e.Direccion)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.NombreCliente)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Telefono)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Corral>(entity =>
             {
                 entity.HasKey(e => e.IdCorral);
@@ -71,6 +94,50 @@ namespace MyProyect_Granja.Models
                 entity.Property(e => e.IdCorral).ValueGeneratedNever();
 
                 entity.Property(e => e.NumCorral).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<DetallesVentum>(entity =>
+            {
+                entity.HasKey(e => e.DetalleId)
+                    .HasName("PK__Detalles__6E19D6FA7BCF7B7D");
+
+                entity.Property(e => e.DetalleId).HasColumnName("DetalleID");
+
+                entity.Property(e => e.CantidadVendida).HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.PrecioUnitario)
+                    .HasColumnType("decimal(10, 2)")
+                    .HasDefaultValueSql("((0))");
+
+                entity.Property(e => e.ProductoId).HasColumnName("ProductoID");
+
+                entity.Property(e => e.TamanoHuevo)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TipoEmpaque)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Total)
+                    .HasColumnType("decimal(21, 2)")
+                    .HasComputedColumnSql("([CantidadVendida]*[PrecioUnitario])", true);
+
+                entity.Property(e => e.TotalHuevos).HasComputedColumnSql("(case when [TipoEmpaque]='Caja' then [CantidadVendida]*(360) when [TipoEmpaque]='Cartón' then [CantidadVendida]*(30) else [CantidadVendida] end)", true);
+
+                entity.Property(e => e.VentaId).HasColumnName("VentaID");
+
+                entity.HasOne(d => d.Producto)
+                    .WithMany(p => p.DetallesVenta)
+                    .HasForeignKey(d => d.ProductoId)
+                    .HasConstraintName("FK__DetallesV__Produ__1411F17C");
+
+                entity.HasOne(d => d.Venta)
+                    .WithMany(p => p.DetallesVenta)
+                    .HasForeignKey(d => d.VentaId)
+                    .HasConstraintName("FK__DetallesV__Venta__131DCD43");
             });
 
             modelBuilder.Entity<EstadoLote>(entity =>
@@ -160,6 +227,21 @@ namespace MyProyect_Granja.Models
                     .HasConstraintName("FK_ProduccionGallinas_Lote");
             });
 
+            modelBuilder.Entity<Producto>(entity =>
+            {
+                entity.Property(e => e.ProductoId).HasColumnName("ProductoID");
+
+                entity.Property(e => e.Descripcion)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.NombreProducto)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<RazaGallina>(entity =>
             {
                 entity.HasKey(e => e.IdRaza);
@@ -200,12 +282,38 @@ namespace MyProyect_Granja.Models
 
                 entity.Property(e => e.Email).HasMaxLength(100);
 
+                entity.Property(e => e.Estado)
+                    .IsRequired()
+                    .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.FechaDeRegistro)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
                 entity.Property(e => e.NombreUser).HasMaxLength(50);
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Usuarios)
                     .HasForeignKey(d => d.RoleId)
                     .HasConstraintName("FK__Usuarios__RoleId__55209ACA");
+            });
+
+            modelBuilder.Entity<Venta>(entity =>
+            {
+                entity.Property(e => e.VentaId).HasColumnName("VentaID");
+
+                entity.Property(e => e.ClienteId).HasColumnName("ClienteID");
+
+                entity.Property(e => e.Estado).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.FechaVenta).HasColumnType("date");
+
+                entity.Property(e => e.TotalVenta).HasColumnType("decimal(10, 2)");
+
+                entity.HasOne(d => d.Cliente)
+                    .WithMany(p => p.Venta)
+                    .HasForeignKey(d => d.ClienteId)
+                    .HasConstraintName("FK__Ventas__ClienteI__7A521F79");
             });
 
             modelBuilder.Entity<VistaClasificacionHuevo>(entity =>

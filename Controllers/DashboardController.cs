@@ -100,28 +100,35 @@ namespace MyProyect_Granja.Controllers
             var clasificacion = periodo switch
             {
                 "diario" => baseQuery
-                    .GroupBy(c => c.FechaClaS.Value.Date)
+                    .GroupBy(c => new { c.FechaClaS.Value.Date, c.Tamano })
                     .Select(g => new ClasificacionDto
                     {
-                        FechaRegistro = g.Key.ToString("yyyy-MM-dd"),
+                        FechaRegistro = g.Key.Date.ToString("yyyy-MM-dd"),
+                        Tamano = g.Key.Tamano,
                         TotalUnitaria = g.Sum(c => c.TotalUnitaria)
                     })
                     .ToList(),
 
                 "semanal" => baseQuery
-                    .GroupBy(c => CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(c.FechaClaS.Value, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday))
+                    .GroupBy(c => new
+                    {
+                        Week = CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(c.FechaClaS.Value, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday),
+                        c.Tamano
+                    })
                     .Select(g => new ClasificacionDto
                     {
-                        FechaRegistro = $"Semana {g.Key}",
+                        FechaRegistro = $"Semana {g.Key.Week}",
+                        Tamano = g.Key.Tamano,
                         TotalUnitaria = g.Sum(c => c.TotalUnitaria)
                     })
                     .ToList(),
 
                 "mensual" => baseQuery
-                    .GroupBy(c => new { c.FechaClaS.Value.Year, c.FechaClaS.Value.Month })
+                    .GroupBy(c => new { c.FechaClaS.Value.Year, c.FechaClaS.Value.Month, c.Tamano })
                     .Select(g => new ClasificacionDto
                     {
                         FechaRegistro = $"{g.Key.Year}-{g.Key.Month:D2}",
+                        Tamano = g.Key.Tamano,
                         TotalUnitaria = g.Sum(c => c.TotalUnitaria)
                     })
                     .ToList(),
@@ -135,8 +142,10 @@ namespace MyProyect_Granja.Controllers
         public class ClasificacionDto
         {
             public string FechaRegistro { get; set; }
+            public string Tamano { get; set; }
             public int? TotalUnitaria { get; set; }
         }
+
 
 
 

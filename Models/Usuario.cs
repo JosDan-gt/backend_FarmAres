@@ -11,7 +11,7 @@ namespace MyProyect_Granja.Models
         public string Contrasena { get; set; } = null!;
         public int? RoleId { get; set; }
         public DateTime FechaDeRegistro { get; set; }
-        public bool Estado { get; set; }
+        public bool? Estado { get; set; }
 
         public virtual Role? Role { get; set; }
     }

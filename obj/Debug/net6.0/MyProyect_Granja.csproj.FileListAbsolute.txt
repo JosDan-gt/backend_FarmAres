@@ -131,3 +131,4 @@ C:\Users\aldan\Desktop\Nueva carpeta (3)\backend_FarmAres-master\obj\Debug\net6.
 C:\Users\aldan\Desktop\Nueva carpeta (3)\backend_FarmAres-master\bin\Debug\net6.0\BCrypt.Net-Next.dll
 C:\Users\aldan\Desktop\Nueva carpeta (3)\backend_FarmAres-master\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\aldan\Desktop\Nueva carpeta (3)\backend_FarmAres-master\bin\Debug\net6.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\aldan\Desktop\Nueva carpeta (3)\backend_FarmAres-master\obj\Debug\net6.0\MyProyect_Granja.sourcelink.json
