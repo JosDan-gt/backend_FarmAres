@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MyProyect_Granja.Models;
 using MyProyect_Granja.Services;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyProyect_Granja.Controllers
 {
@@ -21,7 +24,7 @@ namespace MyProyect_Granja.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpGet("/getrazaG")]
+        [HttpGet("getrazaG")]
         public async Task<ActionResult<IEnumerable<RazaGallina>>> GetRaza()
         {
             var datosR = await _context.RazaGallinas
@@ -31,14 +34,13 @@ namespace MyProyect_Granja.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("/postraza")]
+        [HttpPost("postraza")]
         public async Task<IActionResult> Post([FromBody] RazaGallina razaGallina)
         {
             if (razaGallina == null)
             {
                 return BadRequest("RazaG es Null");
             }
-
 
             if (!ModelState.IsValid)
             {
@@ -52,21 +54,18 @@ namespace MyProyect_Granja.Controllers
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, new { success = false, message = ex.Message });
             }
         }
 
-
         [Authorize(Roles = "Admin")]
-        [HttpPut("/putraza")]
+        [HttpPut("putraza")]
         public async Task<IActionResult> Put([FromBody] RazaGallina razaGallina)
         {
             if (razaGallina == null)
             {
                 return BadRequest("RazaG es Null");
             }
-
 
             if (!ModelState.IsValid)
             {
@@ -80,7 +79,6 @@ namespace MyProyect_Granja.Controllers
             }
             catch (Exception ex)
             {
-
                 return StatusCode(500, new { success = false, message = ex.Message });
             }
         }

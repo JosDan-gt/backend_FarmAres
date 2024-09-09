@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace MyProyect_Granja.Models
 {
@@ -16,7 +17,9 @@ namespace MyProyect_Granja.Models
         public decimal? TotalVenta { get; set; }
         public bool? Estado { get; set; }
 
+        [JsonIgnore]
         public virtual Cliente? Cliente { get; set; }
+
         public virtual ICollection<DetallesVentum> DetallesVenta { get; set; }
     }
 }

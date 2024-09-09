@@ -50,6 +50,8 @@ namespace MyProyect_Granja
                 });
             });
 
+
+
             // Configuración de la base de datos
             services.AddDbContext<GranjaAres1Context>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("GranjaAres1Database")));
@@ -61,6 +63,7 @@ namespace MyProyect_Granja
             services.AddScoped<IProduccionService, ProduccionService>();
             services.AddScoped<IRazaGService, RazaGService>();
             services.AddScoped<ILoteService, LoteService>();
+            services.AddScoped<IVentasService, VentasService>();    
 
             // Configuración de CORS
             services.AddCors(options =>
@@ -107,6 +110,8 @@ namespace MyProyect_Granja
             }
 
             app.UseHttpsRedirection();
+
+
 
             app.UseRouting();
 

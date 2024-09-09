@@ -40,6 +40,21 @@ namespace MyProyect_Granja.Services
         Task UpdLoteAsync(Lote lote);
     }
 
+    public interface IVentasService
+    {
+        Task InsertarProductoAsync (Producto producto);
+        Task UpdProductoAsync (Producto producto);
+        Task InsertarClienteAsync (Cliente cliente);
+        Task UpdClienteAsync (Cliente cliente);
+        Task InsertarVentaAsync (Venta venta);
+        Task UpdVentaAsync (Venta venta);
+        Task RegistrarVentaAsync(Venta venta, List<InsertarDetallesVentaCompletaDto> detallesVenta);
+        Task ActualizarVentaAsync(ActualizarVentaRequestDto actualizarVentaDto);
+
+
+
+    }
+
 
 
 }
