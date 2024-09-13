@@ -18,7 +18,7 @@ namespace MyProyect_Granja.Models
 
         public virtual DbSet<ClasificacionHuevo> ClasificacionHuevos { get; set; } = null!;
         public virtual DbSet<Cliente> Clientes { get; set; } = null!;
-        public virtual DbSet<Corral> Corral { get; set; } = null!;
+        public virtual DbSet<Corral> Corrals { get; set; } = null!;
         public virtual DbSet<DetallesVentum> DetallesVenta { get; set; } = null!;
         public virtual DbSet<EstadoLote> EstadoLotes { get; set; } = null!;
         public virtual DbSet<Etapa> Etapas { get; set; } = null!;
@@ -27,10 +27,12 @@ namespace MyProyect_Granja.Models
         public virtual DbSet<Producto> Productos { get; set; } = null!;
         public virtual DbSet<RazaGallina> RazaGallinas { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
+        public virtual DbSet<StockHuevo> StockHuevos { get; set; } = null!;
+        public virtual DbSet<TriggerDebugLog> TriggerDebugLogs { get; set; } = null!;
         public virtual DbSet<Usuario> Usuarios { get; set; } = null!;
         public virtual DbSet<Venta> Ventas { get; set; } = null!;
         public virtual DbSet<VistaClasificacionHuevo> VistaClasificacionHuevos { get; set; } = null!;
-        public virtual DbSet<VistaDashboard> VistaDashboard { get; set; } = null!;
+        public virtual DbSet<VistaDashboard> VistaDashboards { get; set; } = null!;
         public virtual DbSet<VistaEstadoLotePorFecha> VistaEstadoLotePorFechas { get; set; } = null!;
         public virtual DbSet<VistaInformacionClasificacionHuevo> VistaInformacionClasificacionHuevos { get; set; } = null!;
         public virtual DbSet<VistaStockRestanteHuevo> VistaStockRestanteHuevos { get; set; } = null!;
@@ -276,6 +278,31 @@ namespace MyProyect_Granja.Models
                 entity.Property(e => e.Nombre).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<StockHuevo>(entity =>
+            {
+                entity.HasKey(e => e.Tamano)
+                    .HasName("PK__StockHue__799ADF874A37494A");
+
+                entity.Property(e => e.Tamano).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<TriggerDebugLog>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("TriggerDebugLog");
+
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.OperationType)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Timestamp)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+            });
+
             modelBuilder.Entity<Usuario>(entity =>
             {
                 entity.Property(e => e.Contrasena).HasMaxLength(255);
@@ -308,7 +335,7 @@ namespace MyProyect_Granja.Models
 
                 entity.Property(e => e.FechaVenta).HasColumnType("date");
 
-                entity.Property(e => e.TotalVenta).HasColumnType("decimal(10, 2)");
+                entity.Property(e => e.TotalVenta).HasColumnType("decimal(18, 2)");
 
                 entity.HasOne(d => d.Cliente)
                     .WithMany(p => p.Venta)

@@ -24,7 +24,7 @@ namespace MyProyect_Granja.Controllers
         [HttpGet("/getcorral")]
         public async Task<ActionResult<IEnumerable<Corral>>> GetCorral()
         {
-            var corral = await _context.Corral
+            var corral = await _context.Corrals
                                        .ToListAsync();
 
             if (corral == null)
@@ -99,7 +99,7 @@ namespace MyProyect_Granja.Controllers
         [HttpPut("/updestadocorral")]
         public async Task<IActionResult> PutCorral(int id, [FromBody] EstadoDlt dto)
         {
-            var corral = await _context.Corral.FindAsync(id);
+            var corral = await _context.Corrals.FindAsync(id);
             if (corral == null)
             {
                 return NotFound(new { message = "Estado Lote no encontrada." });

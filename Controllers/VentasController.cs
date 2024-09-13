@@ -252,6 +252,21 @@ namespace MyProyect_Granja.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet("stockhuevos")]
+        public async Task<IActionResult> ObtenerStock()
+        {
+            try
+            {
+                var stockh = await _context.StockHuevos.ToListAsync();
+                return Ok(stockh);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { success = false, message = ex.Message });
+            }
+        }
+
     }
 }
 

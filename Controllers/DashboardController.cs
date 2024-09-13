@@ -22,7 +22,7 @@ namespace MyProyect_Granja.Controllers
         [HttpGet("infolote/{id}")]
         public async Task<ActionResult<VistaDashboard>> GetVistaDash(int id)
         {
-            var resultado = await _context.VistaDashboard
+            var resultado = await _context.VistaDashboards
                                           .Where(v => v.IdLote == id)
                                           .FirstOrDefaultAsync();
 
