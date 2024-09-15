@@ -22,6 +22,21 @@ namespace MyProyect_Granja
             services.AddControllers();
             services.AddEndpointsApiExplorer();
 
+            // Validación de la clave JWT
+            var jwtKey = Configuration["Jwt:Key"];
+            if (string.IsNullOrEmpty(jwtKey))
+            {
+                throw new ArgumentNullException("Jwt:Key", "La clave JWT no está configurada.");
+            }
+            var key = Encoding.ASCII.GetBytes(jwtKey);
+
+            // Validación de la cadena de conexión a la base de datos
+            var connectionString = Configuration.GetConnectionString("GranjaAres1Database");
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new ArgumentNullException("GranjaAres1Database", "La cadena de conexión a la base de datos no está configurada.");
+            }
+
             // Configuración de Swagger
             services.AddSwaggerGen(c =>
             {
@@ -50,11 +65,9 @@ namespace MyProyect_Granja
                 });
             });
 
-
-
             // Configuración de la base de datos
             services.AddDbContext<GranjaAres1Context>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("GranjaAres1Database")));
+                options.UseSqlServer(connectionString));
 
             // Configuración de servicios específicos
             services.AddScoped<IClasificacionHuevoService, ClasificacionHuevoService>();
@@ -63,7 +76,7 @@ namespace MyProyect_Granja
             services.AddScoped<IProduccionService, ProduccionService>();
             services.AddScoped<IRazaGService, RazaGService>();
             services.AddScoped<ILoteService, LoteService>();
-            services.AddScoped<IVentasService, VentasService>();    
+            services.AddScoped<IVentasService, VentasService>();
 
             // Configuración de CORS
             services.AddCors(options =>
@@ -78,7 +91,6 @@ namespace MyProyect_Granja
             });
 
             // Configuración de autenticación básica
-            var key = Encoding.ASCII.GetBytes(Configuration["Jwt:Key"]);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
