@@ -108,10 +108,15 @@ namespace MyProyect_Granja
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1"));
             }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts(); // Para habilitar el uso de HTTPS en producción
+            }
 
             app.UseHttpsRedirection();
 
-
+            app.UseDeveloperExceptionPage();
 
             app.UseRouting();
 

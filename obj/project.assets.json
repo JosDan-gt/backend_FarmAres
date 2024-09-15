@@ -2427,11 +2427,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\aldan\\Desktop\\Nueva carpeta (3)\\backend_FarmAres-master\\MyProyect_Granja.csproj",
+      "projectUniqueName": "C:\\Users\\aldan\\Desktop\\Nueva carpeta (4)\\MyProyect_Granja.csproj",
       "projectName": "MyProyect_Granja",
-      "projectPath": "C:\\Users\\aldan\\Desktop\\Nueva carpeta (3)\\backend_FarmAres-master\\MyProyect_Granja.csproj",
+      "projectPath": "C:\\Users\\aldan\\Desktop\\Nueva carpeta (4)\\MyProyect_Granja.csproj",
       "packagesPath": "C:\\Users\\aldan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\aldan\\Desktop\\Nueva carpeta (3)\\backend_FarmAres-master\\obj\\",
+      "outputPath": "C:\\Users\\aldan\\Desktop\\Nueva carpeta (4)\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
