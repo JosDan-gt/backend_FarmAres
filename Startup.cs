@@ -22,19 +22,29 @@ namespace MyProyect_Granja
             services.AddControllers();
             services.AddEndpointsApiExplorer();
 
-            // Validación de la clave JWT
+            // Validación de la clave JWT con log de depuración
             var jwtKey = Configuration["Jwt:Key"];
             if (string.IsNullOrEmpty(jwtKey))
             {
+                Console.WriteLine("JWT key is null or empty.");
                 throw new ArgumentNullException("Jwt:Key", "La clave JWT no está configurada.");
+            }
+            else
+            {
+                Console.WriteLine($"JWT key found: {jwtKey}");
             }
             var key = Encoding.ASCII.GetBytes(jwtKey);
 
-            // Validación de la cadena de conexión a la base de datos
+            // Validación de la cadena de conexión a la base de datos con log de depuración
             var connectionString = Configuration.GetConnectionString("GranjaAres1Database");
             if (string.IsNullOrEmpty(connectionString))
             {
+                Console.WriteLine("Connection string is null or empty.");
                 throw new ArgumentNullException("GranjaAres1Database", "La cadena de conexión a la base de datos no está configurada.");
+            }
+            else
+            {
+                Console.WriteLine($"Connection string found: {connectionString}");
             }
 
             // Configuración de Swagger
