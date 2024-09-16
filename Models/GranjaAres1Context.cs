@@ -2,19 +2,25 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 namespace MyProyect_Granja.Models
 {
     public partial class GranjaAres1Context : DbContext
     {
-        public GranjaAres1Context()
+        private readonly IConfiguration _configuration;  // Agrega este campo para almacenar la configuración
+
+        public GranjaAres1Context(IConfiguration configuration)
         {
+            _configuration = configuration;  // Guarda la configuración inyectada
         }
 
-        public GranjaAres1Context(DbContextOptions<GranjaAres1Context> options)
+        public GranjaAres1Context(DbContextOptions<GranjaAres1Context> options, IConfiguration configuration)
             : base(options)
         {
+            _configuration = configuration;  // Inyecta y guarda la configuración
         }
+
 
         public virtual DbSet<ClasificacionHuevo> ClasificacionHuevos { get; set; } = null!;
         public virtual DbSet<Cliente> Clientes { get; set; } = null!;
@@ -40,8 +46,14 @@ namespace MyProyect_Granja.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            
+            if (!optionsBuilder.IsConfigured)
+            {
+                var connectionString = _configuration.GetConnectionString("GranjaAres1Database");
+                optionsBuilder.UseSqlServer(connectionString);  // Usa la cadena de conexión obtenida
+            }
         }
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
