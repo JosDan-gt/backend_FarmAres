@@ -133,7 +133,6 @@ namespace MyProyect_Granja
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                app.UseHsts(); // Para habilitar el uso de HTTPS en producción
             }
 
             app.UseHttpsRedirection();
