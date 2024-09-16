@@ -6,7 +6,7 @@ using MyProyect_Granja.Services;
 
 namespace MyProyect_Granja.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/corralcontroller")]
     public class CorralController : Controller
@@ -20,7 +20,7 @@ namespace MyProyect_Granja.Controllers
             _corralservice = corralservice;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet("/getcorral")]
         public async Task<ActionResult<IEnumerable<Corral>>> GetCorral()
         {
@@ -37,7 +37,7 @@ namespace MyProyect_Granja.Controllers
 
 
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost("/postcorral")]
         public async Task<IActionResult> Post([FromBody] Corral corral)
         {
@@ -66,7 +66,7 @@ namespace MyProyect_Granja.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPut("/putcorral")]
         public async Task<IActionResult> Put([FromBody] Corral corral)
         {
@@ -95,7 +95,7 @@ namespace MyProyect_Granja.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPut("/updestadocorral")]
         public async Task<IActionResult> PutCorral(int id, [FromBody] EstadoDlt dto)
         {
